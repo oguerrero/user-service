@@ -29,7 +29,6 @@ public class User {
     @NotNull(message = "Password is required")
     private String password;
     @NotNull(message = "Phone number is required")
-    // @Min(value = 6, message = "Phone number must be at least 6 digits")
     private String phoneNumber;
     private Timestamp createdAt;
     private Timestamp updatedAt;
