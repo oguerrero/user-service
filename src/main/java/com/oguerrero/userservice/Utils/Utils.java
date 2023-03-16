@@ -1,12 +1,5 @@
 package com.oguerrero.userservice.Utils;
 
-import javax.crypto.*;
-import javax.crypto.spec.IvParameterSpec;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Base64;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.regex.Pattern;
@@ -18,7 +11,7 @@ public class Utils {
         str = str.trim();
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
     }
-    public static boolean formatEmail(String email) {
+    public static boolean invalidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
                             "[a-zA-Z0-9_+&*-]+)*@" +
                             "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
@@ -27,24 +20,24 @@ public class Utils {
         Pattern pattern = Pattern.compile(emailRegex);
 
         if (email == null)
-            return false;
+            return true;
 
-        return pattern.matcher(email).matches();
+        return !pattern.matcher(email).matches();
     }
 
-    public static boolean formatPhoneNumber(String phoneNumber) {
+    public static boolean invalidPhoneNumber(String phoneNumber) {
         HashSet<Character> phoneSet = new LinkedHashSet<>(phoneNumber.length() - 1);
         for (char c : phoneNumber.toCharArray()) {
             phoneSet.add(c);
         }
 
         if (phoneNumber.length() < 6 || phoneSet.size() < 4) {
-            return false;
+            return true;
         }
 
         Pattern pattern = Pattern.compile("^[0-9]{6,10}$");
 
-        return pattern.matcher(phoneNumber).matches();
+        return !pattern.matcher(phoneNumber).matches();
     }
 
 }

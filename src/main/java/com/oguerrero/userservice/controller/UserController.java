@@ -51,11 +51,11 @@ public class UserController {
         String lastName = Utils.format(user.getLastName());
         String encryptedPassword = passwordEncoder.encode(user.getPassword());
 
-        if (!Utils.formatEmail(user.getEmail())) {
+        if (Utils.invalidEmail(user.getEmail())) {
             return ResponseEntity.badRequest().build();
         }
 
-        if (!Utils.formatPhoneNumber(user.getPhoneNumber())) {
+        if (Utils.invalidPhoneNumber(user.getPhoneNumber())) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -85,11 +85,11 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
 
         User userDB = userService.getById(id);
-        String firstName = "";
-        String lastName = "";
-        String encryptedPassword = "";
-        String email = "";
-        String phoneNumber = "";
+        String firstName;
+        String lastName;
+        String encryptedPassword;
+        String email;
+        String phoneNumber;
 
         if (userDB == null) {
             return ResponseEntity.notFound().build();
@@ -116,7 +116,7 @@ public class UserController {
         if (user.getEmail() == null) {
             email = userDB.getEmail();
         } else {
-            if (!Utils.formatEmail(user.getEmail())) {
+            if (Utils.invalidEmail(user.getEmail())) {
                 return ResponseEntity.badRequest().build();
             }
             email = user.getEmail();
@@ -125,7 +125,7 @@ public class UserController {
         if (user.getPhoneNumber() == null) {
             phoneNumber = userDB.getPhoneNumber();
         } else {
-            if (!Utils.formatPhoneNumber(user.getPhoneNumber())) {
+            if (Utils.invalidPhoneNumber(user.getPhoneNumber())) {
                 return ResponseEntity.badRequest().build();
             }
             phoneNumber = user.getPhoneNumber();
